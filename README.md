@@ -55,7 +55,7 @@ Make the game your own:
 
 ```sh
 # Clone the repository
-git clone <YOUR_REPOSITORY_URL>
+git clone <https://www.github.com/mikewayne92/fitquest-burner>
 
 # Navigate to the project directory
 cd monster-burner
