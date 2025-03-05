@@ -26,6 +26,8 @@ export type Player = {
   avatarId: number;
 };
 
+export type Theme = 'light' | 'dark' | 'system';
+
 export type GameState = {
   player: Player;
   currentMonster: Monster | null;
@@ -35,6 +37,7 @@ export type GameState = {
   dailyGoal: number;
   streakDays: number;
   inBattle: boolean;
+  theme: Theme;
 };
 
 type GameAction =
@@ -44,7 +47,8 @@ type GameAction =
   | { type: 'END_BATTLE' }
   | { type: 'LEVEL_UP' }
   | { type: 'COMPLETE_QUEST' }
-  | { type: 'UPDATE_PLAYER'; payload: Partial<Player> };
+  | { type: 'UPDATE_PLAYER'; payload: Partial<Player> }
+  | { type: 'SET_THEME'; payload: Theme };
 
 // Initial state
 const initialPlayer: Player = {
@@ -87,8 +91,8 @@ const monsters: Monster[] = [
     id: 'boss1',
     name: 'Inferno Dragon',
     level: 5,
-    hp: 200,
-    maxHp: 200,
+    hp: 300,
+    maxHp: 300,
     attack: 15,
     defense: 10,
     image: '/monsters/dragon.png',
@@ -105,6 +109,7 @@ const initialState: GameState = {
   dailyGoal: 500,
   streakDays: 0,
   inBattle: false,
+  theme: 'light',
 };
 
 // Reducer
@@ -153,13 +158,20 @@ const gameReducer = (state: GameState, action: GameAction): GameState => {
       
       if (monsterHp === 0) {
         // Monster defeated
+        const xpGain = state.currentMonster.isBoss ? 
+          state.currentMonster.level * 40 : // Double XP for boss
+          state.currentMonster.level * 20;
+          
         return {
           ...state,
-          currentMonster: null,
+          currentMonster: {
+            ...state.currentMonster,
+            hp: 0,
+          },
           inBattle: false,
           player: {
             ...state.player,
-            xp: state.player.xp + (state.currentMonster.level * 20),
+            xp: state.player.xp + xpGain,
           },
           questsCompleted: state.currentMonster.isBoss 
             ? state.questsCompleted + 1 
@@ -220,6 +232,12 @@ const gameReducer = (state: GameState, action: GameAction): GameState => {
         },
       };
       
+    case 'SET_THEME':
+      return {
+        ...state,
+        theme: action.payload,
+      };
+      
     default:
       return state;
   }
@@ -233,6 +251,8 @@ type GameContextType = {
   startBattle: (monster: Monster) => void;
   endBattle: () => void;
   updatePlayer: (playerData: Partial<Player>) => void;
+  levelUp: () => void;
+  setTheme: (theme: Theme) => void;
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -251,6 +271,9 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (parsedState.player) {
           dispatch({ type: 'UPDATE_PLAYER', payload: parsedState.player });
         }
+        if (parsedState.theme) {
+          dispatch({ type: 'SET_THEME', payload: parsedState.theme });
+        }
         // Other state restoring logic could go here
       } catch (error) {
         console.error('Failed to parse saved state:', error);
@@ -258,12 +281,30 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
   
+  // Apply theme from state
+  useEffect(() => {
+    const root = window.document.documentElement;
+    
+    root.classList.remove('light', 'dark');
+    
+    if (state.theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+      root.classList.add(systemTheme);
+    } else {
+      root.classList.add(state.theme);
+    }
+    
+  }, [state.theme]);
+  
   // Save state to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('monsterBurnerState', JSON.stringify({
       player: state.player,
       questsCompleted: state.questsCompleted,
       streakDays: state.streakDays,
+      theme: state.theme,
     }));
   }, [state]);
   
@@ -284,6 +325,12 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     },
     updatePlayer: (playerData: Partial<Player>) => {
       dispatch({ type: 'UPDATE_PLAYER', payload: playerData });
+    },
+    levelUp: () => {
+      dispatch({ type: 'LEVEL_UP' });
+    },
+    setTheme: (theme: Theme) => {
+      dispatch({ type: 'SET_THEME', payload: theme });
     },
   };
   

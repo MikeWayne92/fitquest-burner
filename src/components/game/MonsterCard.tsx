@@ -2,18 +2,25 @@
 import React from 'react';
 import { Monster } from '@/context/GameContext';
 import { Progress } from '@/components/ui/progress';
-import { Heart, Shield, Flame } from 'lucide-react';
+import { Heart, Shield, Flame, Skull } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 interface MonsterCardProps {
   monster: Monster;
   isActive?: boolean;
+  isDefeated?: boolean;
 }
 
-const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false }) => {
+const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false, isDefeated = false }) => {
   const healthPercentage = (monster.hp / monster.maxHp) * 100;
+  const isDead = monster.hp <= 0 || isDefeated;
   
   return (
-    <div className={`neo-card transform transition-all duration-300 ${isActive ? 'scale-105 border-2 border-orange' : ''}`}>
+    <div className={cn(
+      "neo-card transform transition-all duration-300", 
+      isActive ? 'scale-105 border-2 border-orange' : '',
+      isDead ? 'grayscale brightness-75 border-2 border-red/30' : ''
+    )}>
       <div className="flex justify-between items-start mb-2">
         <div>
           <h3 className="font-bold text-lg">{monster.name}</h3>
@@ -30,11 +37,24 @@ const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false }) 
       <div className="w-full h-40 bg-muted rounded-lg mb-4 flex items-center justify-center relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-t from-muted to-transparent"></div>
         <div className={`w-32 h-32 ${isActive ? 'animate-float' : ''}`}>
-          {/* Placeholder for monster image */}
-          <div className={`w-full h-full rounded-full ${monster.isBoss ? 'bg-red/20' : 'bg-orange/20'} flex items-center justify-center`}>
-            <Flame className={`w-16 h-16 ${monster.isBoss ? 'text-red' : 'text-orange'}`} />
-          </div>
+          {monster.image ? (
+            <img 
+              src={monster.image} 
+              alt={monster.name} 
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <div className={`w-full h-full rounded-full ${monster.isBoss ? 'bg-red/20' : 'bg-orange/20'} flex items-center justify-center`}>
+              <Flame className={`w-16 h-16 ${monster.isBoss ? 'text-red' : 'text-orange'}`} />
+            </div>
+          )}
         </div>
+        
+        {isDead && (
+          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+            <Skull className="w-16 h-16 text-red animate-pulse-slow" />
+          </div>
+        )}
       </div>
       
       <div className="space-y-2">

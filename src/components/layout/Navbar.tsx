@@ -1,12 +1,18 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Flame, Menu, Bell } from 'lucide-react';
+import { Flame, Menu, Bell, Settings } from 'lucide-react';
 import { 
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import ThemeToggle from '@/components/ThemeToggle';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const Navbar: React.FC = () => {
   return (
@@ -48,6 +54,20 @@ const Navbar: React.FC = () => {
         </div>
         
         <div className="flex items-center space-x-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <button className="p-2 rounded-full hover:bg-muted transition-colors">
+                <Settings className="w-6 h-6" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-4">
+              <div className="space-y-2">
+                <h3 className="font-medium text-sm">Appearance</h3>
+                <ThemeToggle />
+              </div>
+            </PopoverContent>
+          </Popover>
+          
           <button className="p-2 rounded-full hover:bg-muted transition-colors relative">
             <Bell className="w-6 h-6" />
             <span className="absolute top-0 right-0 w-2 h-2 bg-red rounded-full"></span>
