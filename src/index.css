@@ -65,7 +65,7 @@
     --secondary-foreground: 0 0% 100%;
 
     --muted: 260 20% 20%;
-    --muted-foreground: 260 10% 70%;
+    --muted-foreground: 260 10% 80%; /* Brightened for better visibility */
 
     --accent: 15 80% 50%;
     --accent-foreground: 0 0% 100%;
@@ -96,19 +96,19 @@
 
 @layer components {
   .neo-card {
-    @apply rounded-2xl bg-white shadow-neomorphism p-6 transition-all duration-300;
+    @apply rounded-2xl bg-white dark:bg-slate-800 shadow-neomorphism p-6 transition-all duration-300;
   }
   
   .neo-card-small {
-    @apply rounded-2xl bg-white shadow-neomorphism-small p-4 transition-all duration-300;
+    @apply rounded-2xl bg-white dark:bg-slate-800 shadow-neomorphism-small p-4 transition-all duration-300;
   }
   
   .neo-card-inset {
-    @apply rounded-2xl bg-white shadow-neomorphism-inset p-4;
+    @apply rounded-2xl bg-white dark:bg-slate-800 shadow-neomorphism-inset p-4;
   }
   
   .glass-card {
-    @apply rounded-2xl backdrop-blur-lg bg-white/30 border border-white/40 shadow-glassmorphism p-6;
+    @apply rounded-2xl backdrop-blur-lg bg-white/30 dark:bg-slate-800/40 border border-white/40 dark:border-white/10 shadow-glassmorphism p-6;
   }
   
   .glass-card-dark {

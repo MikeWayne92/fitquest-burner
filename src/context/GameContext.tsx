@@ -48,7 +48,8 @@ type GameAction =
   | { type: 'LEVEL_UP' }
   | { type: 'COMPLETE_QUEST' }
   | { type: 'UPDATE_PLAYER'; payload: Partial<Player> }
-  | { type: 'SET_THEME'; payload: Theme };
+  | { type: 'SET_THEME'; payload: Theme }
+  | { type: 'USE_CALORIES'; payload: number };
 
 // Initial state
 const initialPlayer: Player = {
@@ -91,8 +92,8 @@ const monsters: Monster[] = [
     id: 'boss1',
     name: 'Inferno Dragon',
     level: 5,
-    hp: 300,
-    maxHp: 300,
+    hp: 450,
+    maxHp: 450,
     attack: 15,
     defense: 10,
     image: '/monsters/dragon.png',
@@ -111,6 +112,9 @@ const initialState: GameState = {
   inBattle: false,
   theme: 'light',
 };
+
+// Calories to HP conversion rate
+export const CALORIES_TO_HP_RATIO = 25;
 
 // Reducer
 const gameReducer = (state: GameState, action: GameAction): GameState => {
@@ -147,6 +151,19 @@ const gameReducer = (state: GameState, action: GameAction): GameState => {
           hp: initialPlayer.maxHp + (newLevel - 1) * 10,
         },
         dailyCalories: newDailyCalories,
+      };
+    }
+    
+    case 'USE_CALORIES': {
+      const caloriesUsed = action.payload;
+      const newCalories = Math.max(0, state.player.calories - caloriesUsed);
+      
+      return {
+        ...state,
+        player: {
+          ...state.player,
+          calories: newCalories,
+        },
       };
     }
     
@@ -253,6 +270,8 @@ type GameContextType = {
   updatePlayer: (playerData: Partial<Player>) => void;
   levelUp: () => void;
   setTheme: (theme: Theme) => void;
+  useCalories: (calories: number) => void;
+  getHPFromCalories: (calories: number) => number;
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -308,6 +327,11 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }));
   }, [state]);
   
+  // Calculate HP from calories
+  const getHPFromCalories = (calories: number): number => {
+    return Math.floor(calories / CALORIES_TO_HP_RATIO);
+  };
+  
   // Context value
   const value = {
     state,
@@ -332,6 +356,10 @@ export const GameProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setTheme: (theme: Theme) => {
       dispatch({ type: 'SET_THEME', payload: theme });
     },
+    useCalories: (calories: number) => {
+      dispatch({ type: 'USE_CALORIES', payload: calories });
+    },
+    getHPFromCalories,
   };
   
   return (

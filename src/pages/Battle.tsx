@@ -1,11 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { useGame, Monster } from '@/context/GameContext';
+import { useGame, Monster, CALORIES_TO_HP_RATIO } from '@/context/GameContext';
 import PlayerCard from '@/components/game/PlayerCard';
 import MonsterCard from '@/components/game/MonsterCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Swords, ArrowLeft, Shield, Zap, Bomb, Skull } from 'lucide-react';
+import { Swords, ArrowLeft, Shield, Zap, Bomb, Skull, Info } from 'lucide-react';
 import { toast } from 'sonner';
 import { Progress } from '@/components/ui/progress';
 
@@ -17,7 +17,7 @@ const ATTACK_TYPES = {
 };
 
 const Battle: React.FC = () => {
-  const { state, startBattle, attackMonster, endBattle, levelUp } = useGame();
+  const { state, startBattle, attackMonster, endBattle, levelUp, useCalories, getHPFromCalories } = useGame();
   const [attackPower, setAttackPower] = useState<number>(0);
   const [manualPower, setManualPower] = useState<number>(0);
   const [charging, setCharging] = useState<boolean>(false);
@@ -102,6 +102,10 @@ const Battle: React.FC = () => {
     const baseDamage = Math.floor((attackPower / 10) * state.player.attack);
     const damage = Math.floor(baseDamage * attackType.multiplier);
     
+    // Deduct calories used for the attack
+    useCalories(attackPower);
+    
+    // Execute the attack
     attackMonster(damage);
     setAttackPower(0);
     setManualPower(0);
@@ -111,6 +115,13 @@ const Battle: React.FC = () => {
         `${state.currentMonster.name} has ${state.currentMonster.hp} HP left!` : 
         "The monster has been defeated!"
     });
+  };
+  
+  // Calculate potential damage based on input calories
+  const calculatePotentialDamage = (calories: number) => {
+    if (!calories) return 0;
+    const baseDamage = Math.floor((calories / 10) * state.player.attack);
+    return baseDamage;
   };
   
   return (
@@ -151,7 +162,7 @@ const Battle: React.FC = () => {
             </Button>
             
             <div className="text-center">
-              <h2 className="font-bold">Battle in Progress</h2>
+              <h2 className="font-bold text-foreground">Battle in Progress</h2>
               <p className="text-sm text-muted-foreground">Use your energy to defeat the monster!</p>
             </div>
           </div>
@@ -162,15 +173,20 @@ const Battle: React.FC = () => {
           </div>
           
           <div className="neo-card-small">
-            <h3 className="font-bold mb-3">Attack Controls</h3>
+            <h3 className="font-bold mb-3 text-foreground">Attack Controls</h3>
             
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <span className="text-sm">Attack Power</span>
-                  <span className="text-sm font-medium">{attackPower}/100</span>
+                  <span className="text-sm text-foreground">Attack Power</span>
+                  <span className="text-sm font-medium text-foreground">{attackPower}/100</span>
                 </div>
                 <Progress value={attackPower} className="h-3" indicatorClassName="bg-orange" />
+              </div>
+              
+              <div className="text-xs flex items-center mb-1 text-muted-foreground">
+                <Info className="h-3 w-3 mr-1" />
+                <span>1 HP damage ≈ {CALORIES_TO_HP_RATIO} calories</span>
               </div>
               
               <div className="grid grid-cols-1 gap-3">
@@ -204,9 +220,11 @@ const Battle: React.FC = () => {
                 </Button>
               </div>
               
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs space-y-1 text-muted-foreground">
                 <p>You have {state.player.calories} calories available for attacks.</p>
-                <p>Each attack consumes calories based on its power.</p>
+                {manualPower > 0 && (
+                  <p>Potential damage: ~{calculatePotentialDamage(manualPower)} HP (before modifiers)</p>
+                )}
                 <p className="mt-1">Attack types: Max Effort (+50% damage), Normal, Minimal (-40% damage), Missed (no damage)</p>
               </div>
             </div>
@@ -215,7 +233,7 @@ const Battle: React.FC = () => {
       ) : (
         <div className="space-y-6">
           <div className="glass-card">
-            <h2 className="font-bold mb-3">Choose Your Opponent</h2>
+            <h2 className="font-bold mb-3 text-foreground">Choose Your Opponent</h2>
             <p className="text-sm text-muted-foreground mb-4">
               Select a monster to battle. Boss monsters give more rewards but are harder to defeat!
             </p>
@@ -224,13 +242,15 @@ const Battle: React.FC = () => {
               {state.monsters.map((monster) => (
                 <div key={monster.id} className="relative">
                   <MonsterCard monster={monster} />
-                  <Button 
-                    onClick={() => selectMonster(monster)} 
-                    className="absolute bottom-4 right-4 bg-orange hover:bg-orange/90"
-                  >
-                    <Swords className="w-4 h-4 mr-2" />
-                    Battle
-                  </Button>
+                  <div className="absolute bottom-0 right-0 p-4 z-10">
+                    <Button 
+                      onClick={() => selectMonster(monster)} 
+                      className="bg-orange hover:bg-orange/90"
+                    >
+                      <Swords className="w-4 h-4 mr-2" />
+                      Battle
+                    </Button>
+                  </div>
                 </div>
               ))}
             </div>
@@ -240,7 +260,7 @@ const Battle: React.FC = () => {
             <div className="flex items-center">
               <Shield className="w-6 h-6 text-purple mr-3" />
               <div>
-                <h3 className="font-bold">Battle Tips</h3>
+                <h3 className="font-bold text-foreground">Battle Tips</h3>
                 <p className="text-sm text-muted-foreground">
                   The more calories you burn in real life, the more powerful your attacks will be in battle!
                 </p>

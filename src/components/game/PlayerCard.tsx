@@ -30,7 +30,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, compact = false }) => {
         
         <div className="flex-1">
           <div className="flex justify-between items-center">
-            <h3 className="font-bold">{player.name}</h3>
+            <h3 className="font-bold text-foreground">{player.name}</h3>
             <span className="text-xs bg-purple/10 text-purple px-2 py-1 rounded-full">
               LVL {player.level}
             </span>
@@ -40,18 +40,18 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, compact = false }) => {
             <div className="flex items-center justify-between text-xs">
               <div className="flex items-center">
                 <Heart className="w-3 h-3 mr-1 text-red" />
-                <span>HP</span>
+                <span className="text-foreground">HP</span>
               </div>
-              <span>{player.hp}/{player.maxHp}</span>
+              <span className="text-foreground">{player.hp}/{player.maxHp}</span>
             </div>
             <Progress value={healthPercentage} className="h-1.5" indicatorClassName="bg-red" />
             
             <div className="flex items-center justify-between text-xs mt-1">
               <div className="flex items-center">
                 <Zap className="w-3 h-3 mr-1 text-green" />
-                <span>XP</span>
+                <span className="text-foreground">XP</span>
               </div>
-              <span>{player.xp}/{player.xpToNextLevel}</span>
+              <span className="text-foreground">{player.xp}/{player.xpToNextLevel}</span>
             </div>
             <Progress value={xpPercentage} className="h-1.5" indicatorClassName="bg-green" />
           </div>
@@ -69,7 +69,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, compact = false }) => {
         </div>
         
         <div>
-          <h3 className="font-bold text-lg">{player.name}</h3>
+          <h3 className="font-bold text-lg text-foreground">{player.name}</h3>
           <div className="flex items-center">
             <span className="text-xs bg-purple/10 text-purple px-2 py-1 rounded-full inline-flex items-center">
               <Trophy className="w-3 h-3 mr-1" />
@@ -87,9 +87,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, compact = false }) => {
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center">
               <Heart className="w-4 h-4 mr-1 text-red" />
-              <span className="text-sm">Health</span>
+              <span className="text-sm text-foreground">Health</span>
             </div>
-            <span className="text-sm font-medium">{player.hp}/{player.maxHp}</span>
+            <span className="text-sm font-medium text-foreground">{player.hp}/{player.maxHp}</span>
           </div>
           <Progress value={healthPercentage} className="h-2" indicatorClassName="bg-red" />
         </div>
@@ -98,9 +98,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, compact = false }) => {
           <div className="flex items-center justify-between mb-1">
             <div className="flex items-center">
               <Zap className="w-4 h-4 mr-1 text-green" />
-              <span className="text-sm">Experience</span>
+              <span className="text-sm text-foreground">Experience</span>
             </div>
-            <span className="text-sm font-medium">{player.xp}/{player.xpToNextLevel}</span>
+            <span className="text-sm font-medium text-foreground">{player.xp}/{player.xpToNextLevel}</span>
           </div>
           <Progress value={xpPercentage} className="h-2" indicatorClassName="bg-green" />
         </div>
@@ -111,7 +111,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, compact = false }) => {
           <Flame className="w-4 h-4 text-orange" />
           <div>
             <p className="text-xs text-muted-foreground">Attack</p>
-            <p className="font-medium">{player.attack}</p>
+            <p className="font-medium text-foreground">{player.attack}</p>
           </div>
         </div>
         
@@ -119,7 +119,7 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, compact = false }) => {
           <Shield className="w-4 h-4 text-teal" />
           <div>
             <p className="text-xs text-muted-foreground">Defense</p>
-            <p className="font-medium">{player.defense}</p>
+            <p className="font-medium text-foreground">{player.defense}</p>
           </div>
         </div>
       </div>

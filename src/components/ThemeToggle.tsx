@@ -13,7 +13,7 @@ const ThemeToggle: React.FC = () => {
         variant={state.theme === 'light' ? 'default' : 'outline'}
         size="sm"
         onClick={() => setTheme('light')}
-        className="w-9 p-0"
+        className="w-9 p-0 transition-all"
       >
         <Sun className="h-4 w-4" />
       </Button>
@@ -22,7 +22,7 @@ const ThemeToggle: React.FC = () => {
         variant={state.theme === 'dark' ? 'default' : 'outline'}
         size="sm"
         onClick={() => setTheme('dark')}
-        className="w-9 p-0"
+        className="w-9 p-0 transition-all"
       >
         <Moon className="h-4 w-4" />
       </Button>
@@ -31,7 +31,7 @@ const ThemeToggle: React.FC = () => {
         variant={state.theme === 'system' ? 'default' : 'outline'}
         size="sm"
         onClick={() => setTheme('system')}
-        className="w-9 p-0"
+        className="w-9 p-0 transition-all"
       >
         <Laptop className="h-4 w-4" />
       </Button>

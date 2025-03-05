@@ -23,7 +23,7 @@ const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false, is
     )}>
       <div className="flex justify-between items-start mb-2">
         <div>
-          <h3 className="font-bold text-lg">{monster.name}</h3>
+          <h3 className="font-bold text-lg text-foreground">{monster.name}</h3>
           <p className="text-sm text-muted-foreground">Level {monster.level}</p>
         </div>
         {monster.isBoss && (
@@ -51,7 +51,7 @@ const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false, is
         </div>
         
         {isDead && (
-          <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/70 flex items-center justify-center">
             <Skull className="w-16 h-16 text-red animate-pulse-slow" />
           </div>
         )}
@@ -61,9 +61,9 @@ const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false, is
         <div className="flex items-center justify-between">
           <div className="flex items-center">
             <Heart className="w-4 h-4 mr-1 text-red" />
-            <span className="text-sm">HP</span>
+            <span className="text-sm text-foreground">HP</span>
           </div>
-          <span className="text-sm font-medium">{monster.hp}/{monster.maxHp}</span>
+          <span className="text-sm font-medium text-foreground">{monster.hp}/{monster.maxHp}</span>
         </div>
         <Progress value={healthPercentage} className="h-2" indicatorClassName="bg-red" />
         
@@ -72,7 +72,7 @@ const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false, is
             <Flame className="w-4 h-4 text-orange" />
             <div>
               <p className="text-xs text-muted-foreground">Attack</p>
-              <p className="font-medium">{monster.attack}</p>
+              <p className="font-medium text-foreground">{monster.attack}</p>
             </div>
           </div>
           
@@ -80,7 +80,7 @@ const MonsterCard: React.FC<MonsterCardProps> = ({ monster, isActive = false, is
             <Shield className="w-4 h-4 text-teal" />
             <div>
               <p className="text-xs text-muted-foreground">Defense</p>
-              <p className="font-medium">{monster.defense}</p>
+              <p className="font-medium text-foreground">{monster.defense}</p>
             </div>
           </div>
         </div>
