@@ -1,69 +1,126 @@
-# Welcome to your Lovable project
 
-## Project info
+# Monster Burner: Fitness RPG
 
-**URL**: https://lovable.dev/projects/0a39cd0c-84af-4b78-8628-b2d010d35f87
+![Monster Burner](public/og-image.png)
 
-## How can I edit this code?
+Monster Burner is an interactive fitness RPG that transforms your real-world exercise into in-game progress. Burn calories in real life to defeat monsters, complete quests, and level up your character!
 
-There are several ways of editing your application.
+## Features
 
-**Use Lovable**
+### 🔥 Calorie to Game Power System
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/0a39cd0c-84af-4b78-8628-b2d010d35f87) and start prompting.
+Convert your real-world exercise effort into game power:
+- Each calorie you burn gives you energy in the game
+- 25 calories = 1 HP damage against monsters
+- Track your daily progress toward fitness goals
+- Maintain a streak for additional rewards
 
-Changes made via Lovable will be committed automatically to this repo.
+### ⚔️ Battle System
 
-**Use your preferred IDE**
+Engage in tactical battles against various monsters:
+- Choose opponents of different difficulty levels
+- Use your burned calories to power attacks
+- Experience variable attack types (Max Effort, Normal, Minimal, Missed)
+- Defeat boss monsters for bonus rewards and quest completion
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### 📈 Progress Tracking
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Monitor your fitness journey within an engaging RPG context:
+- Daily and total calorie counters
+- Streak tracking for consistent exercise
+- Character level progression with improved stats
+- XP system that rewards consistent activity
 
-Follow these steps:
+### 🎯 Quest System
+
+Complete fitness-themed challenges:
+- Daily quests to encourage regular exercise
+- Boss battles that require strategic calorie management
+- Rewards that enhance your character's abilities
+
+### 🌓 Personalization
+
+Make the game your own:
+- Light/dark theme options
+- Character customization
+- Adjustable daily calorie goals
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js & npm - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+### Installation
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+# Clone the repository
+git clone <YOUR_REPOSITORY_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Navigate to the project directory
+cd monster-burner
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Install dependencies
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## How to Play
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+1. **Track Your Exercise**: Enter the calories you burn from real-world exercise
+2. **Battle Monsters**: Use your calories to power attacks against monsters
+3. **Complete Quests**: Fulfill daily fitness challenges to earn rewards
+4. **Level Up**: As you defeat monsters and complete quests, your character grows stronger
 
-**Use GitHub Codespaces**
+### Tips for Success
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- **Consistent Activity**: Maintain a streak by logging calories daily
+- **Strategic Battles**: Save calories for boss battles to maximize rewards
+- **Balanced Approach**: Mix regular exercise with challenging boss fights
 
-## What technologies are used for this project?
+## Technical Details
 
-This project is built with .
+Monster Burner is built with modern web technologies:
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- **React**: For building the user interface
+- **TypeScript**: For type-safe code
+- **Tailwind CSS**: For responsive and elegant styling
+- **Shadcn UI**: For beautiful UI components
+- **React Router**: For seamless navigation
+- **React Query**: For efficient data management
+- **Local Storage**: For saving game progress
 
-## How can I deploy this project?
+## Project Structure
 
-Simply open [Lovable](https://lovable.dev/projects/0a39cd0c-84af-4b78-8628-b2d010d35f87) and click on Share -> Publish.
+```
+src/
+├── components/        # UI components
+│   ├── game/          # Game-specific components
+│   ├── layout/        # Layout components
+│   └── ui/            # Shadcn UI components
+├── context/           # React context for game state
+├── hooks/             # Custom React hooks
+├── lib/               # Utility functions
+└── pages/             # Main application pages
+```
 
-## I want to use a custom domain - is that possible?
+## Contributing
 
-We don't support custom domains (yet). If you want to deploy your project under your own domain then we recommend using Netlify. Visit our docs for more details: [Custom domains](https://docs.lovable.dev/tips-tricks/custom-domain/)
+We welcome contributions to enhance Monster Burner! Feel free to submit issues or pull requests.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Fitness enthusiasts who inspired this gamified approach to exercise
+- The amazing open-source community behind the technologies used
+- All contributors who help improve the game
+
+---
+
+Built with ♥ for fitness and gaming enthusiasts
+
